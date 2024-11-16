@@ -1,0 +1,64 @@
+<!-- menu_cliente.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Turnos y Detalles</title>
+    <script src="datos.js"></script>
+    <script>
+        // Verificar si el usuario es cliente
+        if (localStorage.getItem("userRole") !== "cliente") {
+            alert("Acceso no autorizado.");
+            window.location.href = "index.html";
+        }
+    </script>
+</head>
+<body>
+    <h1>Mis Turnos y Detalles</h1>
+    <p><a href="#" onclick="logout()">Cerrar Sesión</a></p>
+
+    <table border="1" id="tablaTurnos">
+        <tr>
+            <th>Número de Expediente</th>
+            <th>Fecha y Hora</th>
+            <th>Estado</th>
+            <th>Abogado Asignado</th>
+            <th>Observaciones</th>
+        </tr>
+    </table>
+
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = "index.html";
+        }
+
+        // Cargar datos desde localStorage si existen
+        if (localStorage.getItem('asuntos')) {
+            asuntos = JSON.parse(localStorage.getItem('asuntos'));
+        }
+        if (localStorage.getItem('asignaciones')) {
+            asignaciones = JSON.parse(localStorage.getItem('asignaciones'));
+        }
+
+        const idCliente = parseInt(localStorage.getItem("idCliente"));
+
+        // Filtrar los asuntos del cliente
+        const asuntosCliente = asuntos.filter(a => a.idCliente === idCliente);
+
+        // Mostrar los asuntos en la tabla
+        const tablaTurnos = document.getElementById("tablaTurnos");
+        asuntosCliente.forEach(asunto => {
+            const fila = tablaTurnos.insertRow();
+            fila.insertCell().innerText = asunto.numExpediente;
+            fila.insertCell().innerText = asunto.fechaInicio; // O fecha y hora del turno
+            fila.insertCell().innerText = asunto.estado;
+            // Obtener el abogado asignado
+            const asignacion = asignaciones.find(a => a.idAsunto === asunto.id);
+            const abogado = abogados.find(ab => ab.id === asignacion.idAbogado);
+            fila.insertCell().innerText = abogado ? abogado.nombre : "No asignado";
+            fila.insertCell().innerText = asunto.observaciones;
+        });
+    </script>
+</body>
+</html>

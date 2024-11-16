@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Procurador</title>
+    <link rel="stylesheet" href="/stylesheets/formulario.css">
+</head>
+<body>
+    <h2>Formulario de Ingreso de Procurador</h2>
+    <form action="/procuradores" method="post">
+        <label for="ci">Cédula de Identidad:</label>
+        <input type="text" id="ci" name="ci" required><br>
+
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="tipo_especialidad">Tipo de Especialidad:</label>
+        <input type="text" id="tipo_especialidad" name="tipo_especialidad" required><br>
+
+        <label for="licencia_procurador">Licencia del Procurador:</label>
+        <input type="text" id="licencia_procurador" name="licencia_procurador" required><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"><br>
+
+        <label for="fecha_titulacion">Fecha de Titulación:</label>
+        <input type="date" id="fecha_titulacion" name="fecha_titulacion"><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono"><br>
+
+        <button type="submit">Guardar Procurador</button>
+    </form>
+    <button onclick="window.location.href='index.html'">Volver al Menú Principal</button>
+</body>
+</html>

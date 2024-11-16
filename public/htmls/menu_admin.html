@@ -1,0 +1,48 @@
+<!-- menu.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal - Sistema de Gestión del Gabinete de Abogados</title>
+    <link rel="stylesheet" href="/stylesheets/menu.css">
+    <script>
+        // Verificar si el usuario está logueado
+        if (localStorage.getItem("loggedIn") !== "true") {
+            alert("Por favor, inicie sesión primero.");
+            window.location.href = "index.html";
+        }
+    </script>
+</head>
+<body>
+    <h1>Menú Principal</h1>
+    <p><a href="#" onclick="logout()">Cerrar Sesión</a></p>
+    <ul id="menuOptions">
+        <!-- Opciones serán agregadas por JavaScript -->
+    </ul>
+
+    <script>
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("userRole");
+            window.location.href = "index.html";
+        }
+
+        var userRole = localStorage.getItem("userRole");
+        var menuOptions = document.getElementById("menuOptions");
+
+        if (userRole === "admin") {
+            menuOptions.innerHTML = `
+                <li><a href="cliente.html">Administrar Clientes</a></li>
+                <li><a href="asunto.html">Administrar Asuntos</a></li>
+                <li><a href="procurador.html">Administrar Procuradores</a></li>
+                <li><a href="asunto_procurador.html">Relacionar Asunto y Procurador</a></li>
+            `;
+        } else if (userRole === "cliente") {
+            menuOptions.innerHTML = `
+                <li><a href="ver_asuntos.html">Ver Mis Asuntos</a></li>
+                <!-- Otras opciones para el cliente -->
+            `;
+        }
+    </script>
+</body>
+</html>

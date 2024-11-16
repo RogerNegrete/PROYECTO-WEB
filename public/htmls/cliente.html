@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Cliente</title>
+    <link rel="stylesheet" href="/stylesheets/formulario.css">
+</head>
+<body>
+    <h2>Formulario de Ingreso de Cliente</h2>
+    <form action="/clientes" method="post">
+        <label for="ci">Cédula de Identidad:</label>
+        <input type="text" id="ci" name="ci" required><br>
+
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"><br>
+
+        <label for="nacionalidad">Nacionalidad:</label>
+        <input type="text" id="nacionalidad" name="nacionalidad"><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono"><br>
+
+        <label for="provincia">Provincia:</label>
+        <input type="text" id="provincia" name="provincia"><br>
+
+        <label for="canton">Cantón:</label>
+        <input type="text" id="canton" name="canton"><br>
+
+        <label for="parroquia">Parroquia:</label>
+        <input type="text" id="parroquia" name="parroquia"><br>
+
+        <label for="barrio">Barrio:</label>
+        <input type="text" id="barrio" name="barrio"><br>
+
+        <label for="calles">Calles:</label>
+        <input type="text" id="calles" name="calles"><br>
+
+        <button type="submit">Guardar Cliente</button>
+    </form>
+    <button onclick="window.location.href='index.html'">Volver al Menú Principal</button>
+</body>
+</html>

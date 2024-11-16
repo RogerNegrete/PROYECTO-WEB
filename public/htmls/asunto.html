@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Asunto</title>
+    <link rel="stylesheet" href="/stylesheets/formulario.css">
+</head>
+<body>
+    <h2>Formulario de Ingreso de Asunto</h2>
+    <form action="/asuntos" method="post">
+        <label for="num_expediente">Número de Expediente:</label>
+        <input type="text" id="num_expediente" name="num_expediente" required><br>
+
+        <label for="id_cliente">ID del Cliente:</label>
+        <input type="number" id="id_cliente" name="id_cliente" required><br>
+
+        <label for="fecha_inicio">Fecha de Inicio:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" required><br>
+
+        <label for="fecha_finalizacion">Fecha de Finalización:</label>
+        <input type="date" id="fecha_finalizacion" name="fecha_finalizacion"><br>
+
+        <label for="estado">Estado:</label>
+        <select id="estado" name="estado">
+            <option value="en_tramite">En Trámite</option>
+            <option value="archivado">Archivado</option>
+        </select><br>
+
+        <label for="observaciones">Observaciones:</label>
+        <textarea id="observaciones" name="observaciones"></textarea><br>
+
+        <button type="submit">Guardar Asunto</button>
+    </form>
+    <button onclick="window.location.href='index.html'">Volver al Menú Principal</button>
+</body>
+</html>
