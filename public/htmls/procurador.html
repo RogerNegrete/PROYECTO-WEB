@@ -1,36 +1,81 @@
+<!-- /admin/procurador.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Registro de Procurador</title>
     <link rel="stylesheet" href="/stylesheets/formulario.css">
+    <script src="/javascripts/datos.js"></script> <!-- Incluye datos.js -->
 </head>
 <body>
     <h2>Formulario de Ingreso de Procurador</h2>
-    <form action="/procuradores" method="post">
+    <form id="formProcurador">
         <label for="ci">Cédula de Identidad:</label>
-        <input type="text" id="ci" name="ci" required><br>
+        <input type="text" id="ci" name="ci" required><br><br>
 
         <label for="nombre">Nombre Completo:</label>
-        <input type="text" id="nombre" name="nombre" required><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
 
         <label for="tipo_especialidad">Tipo de Especialidad:</label>
-        <input type="text" id="tipo_especialidad" name="tipo_especialidad" required><br>
+        <input type="text" id="tipo_especialidad" name="tipo_especialidad" required><br><br>
 
         <label for="licencia_procurador">Licencia del Procurador:</label>
-        <input type="text" id="licencia_procurador" name="licencia_procurador" required><br>
+        <input type="text" id="licencia_procurador" name="licencia_procurador" required><br><br>
 
         <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"><br>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"><br><br>
 
         <label for="fecha_titulacion">Fecha de Titulación:</label>
-        <input type="date" id="fecha_titulacion" name="fecha_titulacion"><br>
+        <input type="date" id="fecha_titulacion" name="fecha_titulacion"><br><br>
 
         <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono"><br>
+        <input type="tel" id="telefono" name="telefono"><br><br>
 
         <button type="submit">Guardar Procurador</button>
     </form>
-    <button onclick="window.location.href='index.html'">Volver al Menú Principal</button>
+    <button onclick="window.location.href='menu_admin.html'">Volver al Menú Principal</button>
+
+    <script>
+        // Manejar la sumisión del formulario
+        document.getElementById('formProcurador').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita el envío tradicional del formulario
+
+            // Obtener los valores del formulario
+            const ci = document.getElementById('ci').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            const tipo_especialidad = document.getElementById('tipo_especialidad').value.trim();
+            const licencia_procurador = document.getElementById('licencia_procurador').value.trim();
+            const fecha_nacimiento = document.getElementById('fecha_nacimiento').value;
+            const fecha_titulacion = document.getElementById('fecha_titulacion').value;
+            const telefono = document.getElementById('telefono').value.trim();
+
+            // Validar campos obligatorios
+            if (!ci || !nombre || !tipo_especialidad || !licencia_procurador) {
+                alert('Por favor, completa todos los campos obligatorios.');
+                return;
+            }
+
+            // Crear un objeto procurador
+            const nuevoProcurador = {
+                id: Date.now(), // ID único basado en la marca de tiempo
+                nombre,
+                ci,
+                tipo_especialidad,
+                licencia_procurador,
+                fecha_nacimiento,
+                fecha_titulacion,
+                telefono
+            };
+
+            // Añadir el nuevo procurador al array
+            agregarAbogado(nuevoProcurador); // Asumiendo que 'procuradores' son 'abogados' en tu estructura
+
+            // Mostrar un mensaje de éxito
+            alert('Procurador registrado exitosamente.');
+
+            // Limpiar el formulario
+            document.getElementById('formProcurador').reset();
+        });
+    </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 // Asegúrate de que 'usuarios.js' esté incluido en tu 'index.html' antes de este archivo
 
 // Variables globales que contienen los usuarios
+// Si estás usando módulos, puedes importar estos arreglos; de lo contrario, asegúrate de que estén en el ámbito global
 
 // Cargar los usuarios desde localStorage si existen; si no, usar los de 'usuarios.js'
 if (localStorage.getItem('usuarios')) {
@@ -18,6 +19,8 @@ if (localStorage.getItem('usuarios')) {
 
 // Función para validar las credenciales de inicio de sesión
 function validateLogin() {
+    console.log("validateLogin() llamada"); // Mensaje de depuración
+
     // Obtener los valores ingresados por el usuario en el formulario
     var username = document.getElementById("username").value.trim();
     var password = document.getElementById("password").value.trim();
@@ -34,6 +37,8 @@ function validateLogin() {
     });
 
     if (authenticatedUser) {
+        console.log("Usuario autenticado:", authenticatedUser); // Mensaje de depuración
+
         // Guardar el estado de sesión y datos del usuario en localStorage
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("userRole", authenticatedUser.role);
@@ -52,11 +57,12 @@ function validateLogin() {
         } else {
             // Si el rol no es reconocido, mostrar un mensaje de error
             document.getElementById("errorMessage").innerText = "Rol de usuario no válido.";
-            return false;
+            return false; // Evita el envío del formulario y la recarga de la página
         }
 
         return false; // Evita el envío del formulario y la recarga de la página
     } else {
+        console.log("Credenciales incorrectas"); // Mensaje de depuración
         // Si las credenciales no son válidas, mostrar un mensaje de error
         document.getElementById("errorMessage").innerText = "Usuario o contraseña incorrectos.";
         return false; // Evita el envío del formulario y la recarga de la página

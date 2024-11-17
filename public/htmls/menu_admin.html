@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Menú Principal - Sistema de Gestión del Gabinete de Abogados</title>
-    <link rel="stylesheet" href="/stylesheets/menu.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
     <script>
         // Verificar si el usuario está logueado
         if (localStorage.getItem("loggedIn") !== "true") {
@@ -35,7 +35,7 @@
                 <li><a href="cliente.html">Administrar Clientes</a></li>
                 <li><a href="asunto.html">Administrar Asuntos</a></li>
                 <li><a href="procurador.html">Administrar Procuradores</a></li>
-                <li><a href="asunto_procurador.html">Relacionar Asunto y Procurador</a></li>
+                <li><a href="registro_asunto.html">Agenda de casos</a></li>
             `;
         } else if (userRole === "cliente") {
             menuOptions.innerHTML = `

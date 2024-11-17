@@ -1,10 +1,11 @@
-<!-- menu_cliente.html -->
+<!-- /menu_cliente.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Turnos y Detalles</title>
-    <script src="datos.js"></script>
+    <title>Mis Turnos y Detalles - Sistema de Gestión del Gabinete de Abogados</title>
+    <link rel="stylesheet" href="/stylesheets/menu_cliente.css">
+    <script src="/javascripts/datos.js"></script> <!-- Incluye datos.js -->
     <script>
         // Verificar si el usuario es cliente
         if (localStorage.getItem("userRole") !== "cliente") {
@@ -15,16 +16,26 @@
 </head>
 <body>
     <h1>Mis Turnos y Detalles</h1>
-    <p><a href="#" onclick="logout()">Cerrar Sesión</a></p>
+    
+    <!-- Contenedor del Botón de Cerrar Sesión -->
+    <div class="logout-container">
+        <a href="#" onclick="logout()" class="logout-button">Cerrar Sesión</a>
+    </div>
 
-    <table border="1" id="tablaTurnos">
-        <tr>
-            <th>Número de Expediente</th>
-            <th>Fecha y Hora</th>
-            <th>Estado</th>
-            <th>Abogado Asignado</th>
-            <th>Observaciones</th>
-        </tr>
+    <table id="tablaTurnos">
+        <thead>
+            <tr>
+                <th>Número de Expediente</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Finalización</th>
+                <th>Estado</th>
+                <th>Abogado Asignado</th>
+                <th>Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas se agregarán dinámicamente mediante JavaScript -->
+        </tbody>
     </table>
 
     <script>
@@ -33,31 +44,67 @@
             window.location.href = "index.html";
         }
 
-        // Cargar datos desde localStorage si existen
-        if (localStorage.getItem('asuntos')) {
-            asuntos = JSON.parse(localStorage.getItem('asuntos'));
-        }
-        if (localStorage.getItem('asignaciones')) {
-            asignaciones = JSON.parse(localStorage.getItem('asignaciones'));
+        // Función para obtener el nombre del abogado asignado a un asunto
+        function obtenerNombreAbogado(id_abogado) {
+            const abogado = obtenerAbogados().find(ab => ab.id === id_abogado);
+            return abogado ? abogado.nombre : "No asignado";
         }
 
-        const idCliente = parseInt(localStorage.getItem("idCliente"));
+        // Esperar a que el DOM se cargue completamente
+        document.addEventListener('DOMContentLoaded', function() {
+            const idCliente = parseInt(localStorage.getItem("idCliente"));
+            if (isNaN(idCliente)) {
+                alert("ID de Cliente inválido.");
+                window.location.href = "index.html";
+                return;
+            }
 
-        // Filtrar los asuntos del cliente
-        const asuntosCliente = asuntos.filter(a => a.idCliente === idCliente);
+            const asuntosCliente = obtenerAsuntos().filter(a => a.id_cliente === idCliente);
+            const asignacionesCliente = obtenerAsignaciones().filter(a => asuntosCliente.some(asunto => asunto.id === a.id_asunto));
 
-        // Mostrar los asuntos en la tabla
-        const tablaTurnos = document.getElementById("tablaTurnos");
-        asuntosCliente.forEach(asunto => {
-            const fila = tablaTurnos.insertRow();
-            fila.insertCell().innerText = asunto.numExpediente;
-            fila.insertCell().innerText = asunto.fechaInicio; // O fecha y hora del turno
-            fila.insertCell().innerText = asunto.estado;
-            // Obtener el abogado asignado
-            const asignacion = asignaciones.find(a => a.idAsunto === asunto.id);
-            const abogado = abogados.find(ab => ab.id === asignacion.idAbogado);
-            fila.insertCell().innerText = abogado ? abogado.nombre : "No asignado";
-            fila.insertCell().innerText = asunto.observaciones;
+            if (asuntosCliente.length === 0) {
+                const tablaTurnos = document.getElementById("tablaTurnos").getElementsByTagName('tbody')[0];
+                const fila = tablaTurnos.insertRow();
+                const celda = fila.insertCell();
+                celda.colSpan = 6;
+                celda.innerText = "No tienes asuntos registrados.";
+                celda.style.textAlign = "center";
+                return;
+            }
+
+            // Mostrar los asuntos en la tabla
+            const tablaTurnos = document.getElementById("tablaTurnos").getElementsByTagName('tbody')[0];
+            asuntosCliente.forEach(asunto => {
+                const fila = tablaTurnos.insertRow();
+                
+                const cellNumExpediente = fila.insertCell();
+                cellNumExpediente.innerText = asunto.num_expediente;
+                cellNumExpediente.setAttribute('data-label', 'Número de Expediente');
+
+                const cellFechaInicio = fila.insertCell();
+                cellFechaInicio.innerText = asunto.fecha_inicio;
+                cellFechaInicio.setAttribute('data-label', 'Fecha de Inicio');
+
+                const cellFechaFinalizacion = fila.insertCell();
+                cellFechaFinalizacion.innerText = asunto.fecha_finalizacion || "Pendiente";
+                cellFechaFinalizacion.setAttribute('data-label', 'Fecha de Finalización');
+
+                const cellEstado = fila.insertCell();
+                cellEstado.innerText = asunto.estado;
+                cellEstado.setAttribute('data-label', 'Estado');
+
+                const cellAbogado = fila.insertCell();
+                // Encontrar la asignación correspondiente al asunto
+                const asignacion = asignaciones.find(a => a.id_asunto === asunto.id);
+                // Encontrar el abogado asignado
+                const abogado = asignacion ? obtenerAbogados().find(ab => ab.id === asignacion.id_abogado) : null;
+                cellAbogado.innerText = abogado ? abogado.nombre : "No asignado";
+                cellAbogado.setAttribute('data-label', 'Abogado Asignado');
+
+                const cellObservaciones = fila.insertCell();
+                cellObservaciones.innerText = asunto.observaciones || "N/A";
+                cellObservaciones.setAttribute('data-label', 'Observaciones');
+            });
         });
     </script>
 </body>

@@ -1,0 +1,138 @@
+<!-- /public/htmls/registro_asunto.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Asuntos</title>
+    <link rel="stylesheet" href="/stylesheets/formulario.css">
+    <script src="/javascripts/datos.js" defer></script>
+</head>
+<body>
+    <h2>Lista de Asuntos Registrados</h2>
+    <table id="tablaAsuntos" border="1">
+        <thead>
+            <tr>
+                <th>ID Asunto</th>
+                <th>Número de Expediente</th>
+                <th>Cliente</th>
+                <th>Abogado</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Finalización</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas dinámicas -->
+        </tbody>
+    </table>
+    <button onclick="window.location.href='asunto.html'">Registrar Nuevo Asunto</button>
+    <button onclick="window.location.href='menu_admin.html'">Volver al Menú Principal</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tablaAsuntos = document.getElementById('tablaAsuntos').getElementsByTagName('tbody')[0];
+
+            // Función para llenar la tabla de asuntos
+            function llenarTabla() {
+                // Limpiar la tabla
+                tablaAsuntos.innerHTML = '';
+
+                const asuntos = obtenerAsuntos();
+                const abogados = obtenerAbogados();
+                const clientes = obtenerClientes();
+
+                asuntos.forEach(asunto => {
+                    const fila = tablaAsuntos.insertRow();
+
+                    // ID Asunto
+                    const cellId = fila.insertCell(0);
+                    cellId.textContent = asunto.id;
+
+                    // Número de Expediente
+                    const cellExpediente = fila.insertCell(1);
+                    cellExpediente.textContent = asunto.num_expediente;
+
+                    // Cliente
+                    const cliente = clientes.find(c => c.id === asunto.id_cliente);
+                    const cellCliente = fila.insertCell(2);
+                    cellCliente.textContent = cliente ? `${cliente.nombre} (${cliente.ci})` : 'Cliente no encontrado';
+
+                    // Abogado
+                    const asignacion = asignaciones.find(a => a.id_asunto === asunto.id);
+                    const abogado = asignacion ? abogados.find(a => a.id === asignacion.id_abogado) : null;
+                    const cellAbogado = fila.insertCell(3);
+                    cellAbogado.textContent = abogado ? `${abogado.nombre} (${abogado.tipo_especialidad})` : 'Abogado no asignado';
+
+                    // Fecha de Inicio
+                    const cellFechaInicio = fila.insertCell(4);
+                    cellFechaInicio.textContent = asunto.fecha_inicio;
+
+                    // Fecha de Finalización
+                    const cellFechaFinal = fila.insertCell(5);
+                    cellFechaFinal.textContent = asunto.fecha_finalizacion || '-';
+
+                    // Estado
+                    const cellEstado = fila.insertCell(6);
+                    cellEstado.textContent = asunto.estado;
+
+                    // Observaciones
+                    const cellObservaciones = fila.insertCell(7);
+                    cellObservaciones.textContent = asunto.observaciones || '-';
+
+                    // Acciones (Editar/Eliminar)
+                    const cellAcciones = fila.insertCell(8);
+                    const btnEditar = document.createElement('button');
+                    btnEditar.textContent = 'Editar';
+                    btnEditar.onclick = function() {
+                        editarAsunto(asunto.id);
+                    };
+                    const btnEliminar = document.createElement('button');
+                    btnEliminar.textContent = 'Eliminar';
+                    btnEliminar.onclick = function() {
+                        eliminarAsunto(asunto.id);
+                    };
+                    cellAcciones.appendChild(btnEditar);
+                    cellAcciones.appendChild(btnEliminar);
+                });
+            }
+
+            // Función para editar un asunto
+            function editarAsunto(id_asunto) {
+                // Implementa la lógica para editar el asunto
+                // Por ejemplo, redirigir a una página de edición con los datos prellenados
+                alert('Funcionalidad de edición no implementada aún.');
+            }
+
+            // Función para eliminar un asunto
+            function eliminarAsunto(id_asunto) {
+                if (confirm('¿Estás seguro de que deseas eliminar este asunto?')) {
+                    // Eliminar el asunto
+                    const indexAsunto = asuntos.findIndex(a => a.id === id_asunto);
+                    if (indexAsunto !== -1) {
+                        asuntos.splice(indexAsunto, 1);
+                    }
+
+                    // Eliminar la asignación
+                    const indexAsignacion = asignaciones.findIndex(a => a.id_asunto === id_asunto);
+                    if (indexAsignacion !== -1) {
+                        asignaciones.splice(indexAsignacion, 1);
+                    }
+
+                    // Guardar los cambios
+                    guardarDatos();
+
+                    // Actualizar la tabla
+                    llenarTabla();
+
+                    alert('Asunto eliminado exitosamente.');
+                }
+            }
+
+            // Llenar la tabla al cargar la página
+            llenarTabla();
+        });
+    </script>
+</body>
+</html>

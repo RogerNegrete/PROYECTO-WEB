@@ -3,7 +3,7 @@
 // Datos de usuarios para inicio de sesión
 
 // 10 Clientes con idCliente correspondiente
-const usuariosClientes = [
+var usuariosClientes = [
     { username: "cliente1", password: "passcliente1", role: "cliente", idCliente: 1 },
     { username: "cliente2", password: "passcliente2", role: "cliente", idCliente: 2 },
     { username: "cliente3", password: "passcliente3", role: "cliente", idCliente: 3 },
@@ -17,7 +17,7 @@ const usuariosClientes = [
 ];
 
 // 10 Administradores (no necesitan idCliente)
-const usuariosAdministradores = [
+var usuariosAdministradores = [
     { username: "admin1", password: "passadmin1", role: "admin" },
     { username: "admin2", password: "passadmin2", role: "admin" },
     { username: "admin3", password: "passadmin3", role: "admin" },
@@ -31,4 +31,4 @@ const usuariosAdministradores = [
 ];
 
 // Unir ambos arreglos para usarlos en la validación
-const usuarios = [...usuariosClientes, ...usuariosAdministradores];
+var usuarios = usuariosClientes.concat(usuariosAdministradores);
