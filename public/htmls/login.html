@@ -1,0 +1,23 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio de Sesión - Sistema de Gestión del Gabinete de Abogados</title>
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <!-- Incluir los archivos JavaScript necesarios -->
+    <script src="/javascripts/usuarios.js"></script> <!-- Contiene los arreglos de usuarios -->
+    <script src="/javascripts/login.js"></script> <!-- Contiene la función validateLogin() -->
+</head>
+<body>
+    <h1>Bienvenido al Sistema de Gestión del Gabinete de Abogados</h1>
+    <form id="loginForm" onsubmit="return validateLogin()">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Iniciar Sesión">
+    </form>
+    <p id="errorMessage" style="color:red;"></p>
+</body>
+</html>

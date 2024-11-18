@@ -1,23 +1,80 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio de Sesión - Sistema de Gestión del Gabinete de Abogados</title>
-    <link rel="stylesheet" href="/stylesheets/index.css">
-    <!-- Incluir los archivos JavaScript necesarios -->
-    <script src="/javascripts/usuarios.js"></script> <!-- Contiene los arreglos de usuarios -->
-    <script src="/javascripts/login.js"></script> <!-- Contiene la función validateLogin() -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despacho de Abogados - Inicio</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <!-- Importar Font Awesome para iconos (opcional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <h1>Bienvenido al Sistema de Gestión del Gabinete de Abogados</h1>
-    <form id="loginForm" onsubmit="return validateLogin()">
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Iniciar Sesión">
-    </form>
-    <p id="errorMessage" style="color:red;"></p>
+    <!-- Menú de Navegación -->
+    <nav>
+        <div class="nav-top">
+            <div class="logo">
+                <h1>Despacho Legal</h1>
+            </div>
+            <div class="login-button">
+                <a href="login.html">Iniciar Sesión</a>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html"><i class="fas fa-briefcase"></i> Servicios</a></li>
+            <li><a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección Galería -->
+    <section id="galeria">
+        <h2>Abogados</h2>
+        <div class="galeria-container">
+            <div class="galeria-item">
+                <img src="../images/Abogado1.webp" alt="Descripción de la imagen 1">
+            </div>
+            <div class="galeria-item">
+                <img src="../images/Abogado2.webp" alt="Descripción de la imagen 2">
+            </div>
+            <div class="galeria-item">
+                <img src="../images/Abogado3.webp" alt="Descripción de la imagen 3">
+            </div>
+            <div class="galeria-item">
+                <img src="../images/Abogado4.webp" alt="Descripción de la imagen 4">
+            </div>
+            <!-- Añade más elementos de la galería según sea necesario -->
+        </div>
+    </section>
+
+    <!-- Sección Inicio -->
+    <section id="inicio">
+        <h2>Quiénes Somos</h2>
+        <p>Bienvenidos a <strong>Despacho Legal</strong>, tu aliado de confianza en materia jurídica. Con más de 20 años de experiencia, nuestro equipo de abogados altamente capacitados se dedica a proporcionar soluciones legales efectivas y personalizadas para cada uno de nuestros clientes.</p>
+        
+        <h3>Nuestra Misión</h3>
+        <p>Nuestra misión es ofrecer asesoría legal de excelencia, garantizando la satisfacción y tranquilidad de nuestros clientes mediante un enfoque ético y profesional en cada caso que manejamos.</p>
+        
+        <h3>Nuestra Visión</h3>
+        <p>Nos esforzamos por ser reconocidos como uno de los despachos de abogados líderes en la región, destacándonos por nuestra integridad, compromiso y resultados exitosos en cada desafío legal.</p>
+        
+        <h3>Nuestros Valores</h3>
+        <ul>
+            <li>Integridad y Ética Profesional</li>
+            <li>Compromiso con el Cliente</li>
+            <li>Excelencia en el Servicio</li>
+            <li>Trabajo en Equipo</li>
+            <li>Innovación y Adaptabilidad</li>
+        </ul>
+        
+        <h3>¿Por Qué Elegirnos?</h3>
+        <p>En <strong>Despacho Legal</strong>, entendemos que cada situación legal es única. Por eso, nos tomamos el tiempo para escuchar y comprender tus necesidades específicas, ofreciéndote soluciones a medida que protejan tus intereses y derechos. Nuestro compromiso con la calidad y la eficiencia nos ha permitido construir relaciones duraderas con nuestros clientes, basadas en la confianza y el respeto mutuo.</p>
+        
+        <p>Ya sea que estés buscando asesoría en derecho corporativo, defensa penal, asuntos de familia o cualquier otra área del derecho, nuestro equipo está preparado para brindarte el apoyo necesario en cada paso del proceso legal.</p>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>&copy; 2024 Despacho Legal. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
