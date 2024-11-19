@@ -1,5 +1,3 @@
-// /javascripts/datos.js
-
 // Inicializar o cargar los datos de localStorage
 var clientes = JSON.parse(localStorage.getItem('clientes')) || [
     {
@@ -46,8 +44,7 @@ var clientes = JSON.parse(localStorage.getItem('clientes')) || [
         },
         fecha_nacimiento: "1978-03-10",
         nacionalidad: "Ecuatoriana"
-    },
-    // Agrega los clientes 4 al 10 de manera similar...
+    }
 ];
 
 var abogados = JSON.parse(localStorage.getItem('abogados')) || [
@@ -80,8 +77,7 @@ var abogados = JSON.parse(localStorage.getItem('abogados')) || [
         fecha_nacimiento: "1982-08-12",
         fecha_titulacion: "2007-12-05",
         telefono: "0987654323"
-    },
-    // Agrega los abogados 4 al 10 de manera similar...
+    }
 ];
 
 var asuntos = JSON.parse(localStorage.getItem('asuntos')) || [
@@ -111,15 +107,13 @@ var asuntos = JSON.parse(localStorage.getItem('asuntos')) || [
         fecha_finalizacion: "",
         estado: "en_tramite",
         observaciones: "Asunto civil sobre propiedad."
-    },
-    // Agrega los asuntos 4 al 10 de manera similar...
+    }
 ];
 
 var asignaciones = JSON.parse(localStorage.getItem('asignaciones')) || [
     { id_asunto: 1, id_abogado: 1 },
     { id_asunto: 2, id_abogado: 2 },
-    { id_asunto: 3, id_abogado: 3 },
-    // Agrega más asignaciones según sea necesario...
+    { id_asunto: 3, id_abogado: 3 }
 ];
 
 // Función para guardar datos en localStorage
@@ -130,49 +124,69 @@ function guardarDatos() {
     localStorage.setItem('asignaciones', JSON.stringify(asignaciones));
 }
 
-// Funciones para añadir nuevos datos
+// Función para generar el siguiente ID incremental
+function generarNuevoId(datos) {
+    if (!Array.isArray(datos) || datos.length === 0) {
+        return 1; // Si no hay datos, el primer ID será 1
+    }
+    return Math.max(...datos.map(item => item.id)) + 1; // Incrementar el ID máximo existente
+}
+
+// Función para agregar un cliente
 function agregarCliente(cliente) {
-    // Validar que el cliente tenga un ID único
-    if (clientes.some(c => c.id === cliente.id)) {
-        console.error("ID de cliente duplicado:", cliente.id);
-        alert("El ID del cliente ya existe. Intenta nuevamente.");
+    // Generar un ID incremental
+    cliente.id = generarNuevoId(clientes);
+
+    // Verificar si ya existe un cliente con la misma CI
+    if (clientes.some(c => c.ci === cliente.ci)) {
+        alert("Ya existe un cliente con esta Cédula de Identidad.");
         return;
     }
+
     clientes.push(cliente);
     guardarDatos();
+    alert("Cliente registrado exitosamente.");
 }
 
+// Función para agregar un abogado
 function agregarAbogado(abogado) {
-    // Validar que el abogado tenga un ID único
-    if (abogados.some(a => a.id === abogado.id)) {
-        console.error("ID de abogado duplicado:", abogado.id);
-        alert("El ID del abogado ya existe. Intenta nuevamente.");
+    abogado.id = generarNuevoId(abogados);
+
+    if (abogados.some(a => a.ci === abogado.ci)) {
+        alert("Ya existe un abogado con esta Cédula de Identidad.");
         return;
     }
+
     abogados.push(abogado);
     guardarDatos();
+    alert("Abogado registrado exitosamente.");
 }
 
+// Función para agregar un asunto
 function agregarAsunto(asunto) {
-    // Validar que el asunto tenga un ID único
-    if (asuntos.some(a => a.id === asunto.id)) {
-        console.error("ID de asunto duplicado:", asunto.id);
-        alert("El ID del asunto ya existe. Intenta nuevamente.");
+    // Generar un ID incremental
+    asunto.id = generarNuevoId(asuntos);
+
+    if (asuntos.some(a => a.num_expediente === asunto.num_expediente)) {
+        alert("El número de expediente ya existe. Intenta nuevamente.");
         return;
     }
+
     asuntos.push(asunto);
     guardarDatos();
+    alert("Asunto registrado exitosamente.");
 }
 
+// Función para agregar una asignación
 function agregarAsignacion(asignacion) {
-    // Validar que la asignación no exista ya
     if (asignaciones.some(a => a.id_asunto === asignacion.id_asunto && a.id_abogado === asignacion.id_abogado)) {
-        console.error("Asignación duplicada para Asunto:", asignacion.id_asunto, " y Abogado:", asignacion.id_abogado);
-        alert("Esta asignación ya existe. Intenta nuevamente.");
+        alert("Esta asignación ya existe.");
         return;
     }
+
     asignaciones.push(asignacion);
     guardarDatos();
+    alert("Asignación registrada exitosamente.");
 }
 
 // Funciones para obtener datos
@@ -196,7 +210,6 @@ function obtenerAsignaciones() {
 function actualizarAsunto(id_asunto, nuevosDatos) {
     const index = asuntos.findIndex(a => a.id === id_asunto);
     if (index === -1) {
-        console.error("Asunto no encontrado:", id_asunto);
         alert("Asunto no encontrado.");
         return;
     }

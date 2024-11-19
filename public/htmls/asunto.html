@@ -1,11 +1,10 @@
-<!-- /public/htmls/asunto.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Registro de Asunto - Sistema de Gestión</title>
     <link rel="stylesheet" href="/stylesheets/formulario.css">
-    <script src="/javascripts/datos.js" defer></script> <!-- Carga deferida para asegurar que el DOM esté listo -->
+    <script src="/javascripts/datos.js" defer></script>
 </head>
 <body>
     <h2>Formulario de Registro de Asunto</h2>
@@ -16,13 +15,11 @@
         <label for="id_cliente">Seleccionar Cliente:</label>
         <select id="id_cliente" name="id_cliente" required>
             <option value="">--Selecciona un Cliente--</option>
-            <!-- Opciones dinámicas -->
         </select><br><br>
 
         <label for="id_abogado">Seleccionar Abogado:</label>
         <select id="id_abogado" name="id_abogado" required>
             <option value="">--Selecciona un Abogado--</option>
-            <!-- Opciones dinámicas -->
         </select><br><br>
 
         <label for="fecha_inicio">Fecha de Inicio:</label>
@@ -46,21 +43,18 @@
     <button onclick="window.location.href='menu_admin.html'">Volver al Menú Principal</button>
 
     <script>
-        // Asegurarse de que datos.js haya cargado sus funciones
-        document.addEventListener('DOMContentLoaded', function() {
-            // Función para llenar los selectores de Clientes y Abogados
-            function llenarSelectores() {
-                const selectCliente = document.getElementById('id_cliente');
-                const selectAbogado = document.getElementById('id_abogado');
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectCliente = document.getElementById('id_cliente');
+            const selectAbogado = document.getElementById('id_abogado');
 
+            // Llenar selectores con clientes y abogados
+            function llenarSelectores() {
                 const clientes = obtenerClientes();
                 const abogados = obtenerAbogados();
 
-                // Limpiar opciones existentes (excepto la primera)
                 selectCliente.innerHTML = '<option value="">--Selecciona un Cliente--</option>';
                 selectAbogado.innerHTML = '<option value="">--Selecciona un Abogado--</option>';
 
-                // Llenar el selector de Clientes
                 clientes.forEach(cliente => {
                     const option = document.createElement('option');
                     option.value = cliente.id;
@@ -68,7 +62,6 @@
                     selectCliente.add(option);
                 });
 
-                // Llenar el selector de Abogados
                 abogados.forEach(abogado => {
                     const option = document.createElement('option');
                     option.value = abogado.id;
@@ -77,14 +70,11 @@
                 });
             }
 
-            // Llenar los selectores al cargar la página
             llenarSelectores();
 
-            // Manejar la sumisión del formulario
-            document.getElementById('formAsunto').addEventListener('submit', function(e) {
-                e.preventDefault(); // Evita el envío tradicional del formulario
+            document.getElementById('formAsunto').addEventListener('submit', function (e) {
+                e.preventDefault();
 
-                // Obtener los valores del formulario
                 const num_expediente = document.getElementById('num_expediente').value.trim();
                 const id_cliente = parseInt(document.getElementById('id_cliente').value);
                 const id_abogado = parseInt(document.getElementById('id_abogado').value);
@@ -93,7 +83,6 @@
                 const estado = document.getElementById('estado').value;
                 const observaciones = document.getElementById('observaciones').value.trim();
 
-                // Validar que se hayan seleccionado un cliente y un abogado
                 if (isNaN(id_cliente)) {
                     alert('Por favor, selecciona un cliente válido.');
                     return;
@@ -104,16 +93,14 @@
                     return;
                 }
 
-                // Validar que el número de expediente sea único
                 const expedientesExistentes = obtenerAsuntos().map(asunto => asunto.num_expediente);
                 if (expedientesExistentes.includes(num_expediente)) {
                     alert('El número de expediente ya existe. Por favor, ingresa uno único.');
                     return;
                 }
 
-                // Crear un objeto asunto
                 const nuevoAsunto = {
-                    id: Date.now(), // ID único basado en la marca de tiempo
+                    id: generarNuevoId(obtenerAsuntos()), // ID incremental
                     num_expediente,
                     id_cliente,
                     fecha_inicio,
@@ -122,23 +109,18 @@
                     observaciones
                 };
 
-                // Añadir el nuevo asunto al array
                 agregarAsunto(nuevoAsunto);
 
-                // Crear una asignación entre asunto y abogado
                 const nuevaAsignacion = {
                     id_asunto: nuevoAsunto.id,
-                    id_abogado: id_abogado
+                    id_abogado
                 };
 
                 agregarAsignacion(nuevaAsignacion);
 
-                // Mostrar un mensaje de éxito
                 alert('Asunto registrado y asignado exitosamente.');
-
-                // Limpiar el formulario
                 document.getElementById('formAsunto').reset();
-                llenarSelectores(); // Actualizar los selectores en caso de que se agreguen nuevos clientes o abogados
+                llenarSelectores();
             });
         });
     </script>

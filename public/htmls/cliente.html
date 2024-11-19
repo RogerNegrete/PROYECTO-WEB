@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Registro de Cliente</title>
     <link rel="stylesheet" href="/stylesheets/formulario.css">
-    <script src="/javascripts/datos.js"></script> <!-- Incluye datos.js -->
+    <script src="/javascripts/datos.js"></script>
 </head>
 <body>
     <h2>Formulario de Ingreso de Cliente</h2>
@@ -44,61 +44,51 @@
     <button onclick="window.location.href='menu_admin.html'">Volver al Menú Principal</button>
 
     <script>
-        // Manejar la sumisión del formulario
-        document.getElementById('formCliente').addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita el envío tradicional del formulario
+     document.getElementById('formCliente').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita el envío tradicional del formulario
 
-            // Obtener los valores del formulario
-            const ci = document.getElementById('ci').value.trim();
-            const nombre = document.getElementById('nombre').value.trim();
-            const fecha_nacimiento = document.getElementById('fecha_nacimiento').value;
-            const nacionalidad = document.getElementById('nacionalidad').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const provincia = document.getElementById('provincia').value.trim();
-            const canton = document.getElementById('canton').value.trim();
-            const parroquia = document.getElementById('parroquia').value.trim();
-            const barrio = document.getElementById('barrio').value.trim();
-            const calles = document.getElementById('calles').value.trim();
+    // Obtener los valores del formulario
+    const ci = document.getElementById('ci').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    const fecha_nacimiento = document.getElementById('fecha_nacimiento').value;
+    const nacionalidad = document.getElementById('nacionalidad').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const provincia = document.getElementById('provincia').value.trim();
+    const canton = document.getElementById('canton').value.trim();
+    const parroquia = document.getElementById('parroquia').value.trim();
+    const barrio = document.getElementById('barrio').value.trim();
+    const calles = document.getElementById('calles').value.trim();
 
-            // Validar campos obligatorios
-            if (!ci || !nombre) {
-                alert('Por favor, completa los campos obligatorios.');
-                return;
-            }
+    // Validar campos obligatorios
+    if (!ci || !nombre) {
+        alert('Por favor, completa los campos obligatorios.');
+        return;
+    }
 
-            // Verificar si ya existe un cliente con la misma CI
-            const clientesExistentes = obtenerClientes().map(cliente => cliente.ci);
-            if (clientesExistentes.includes(ci)) {
-                alert('Ya existe un cliente con esta Cédula de Identidad.');
-                return;
-            }
+    // Crear un objeto cliente con el ID como la primera propiedad
+    const nuevoCliente = {
+        id: generarNuevoId(clientes), // Generar el ID incremental
+        nombre,
+        ci,
+        telefono,
+        direccion: {
+            provincia,
+            canton,
+            parroquia,
+            barrio,
+            calles
+        },
+        fecha_nacimiento,
+        nacionalidad
+    };
 
-            // Crear un objeto cliente
-            const nuevoCliente = {
-                id: Date.now(), // ID único basado en la marca de tiempo
-                nombre,
-                ci,
-                telefono,
-                direccion: {
-                    provincia,
-                    canton,
-                    parroquia,
-                    barrio,
-                    calles
-                },
-                fecha_nacimiento,
-                nacionalidad
-            };
+    // Añadir el cliente
+    agregarCliente(nuevoCliente);
 
-            // Añadir el nuevo cliente al array
-            agregarCliente(nuevoCliente);
+    // Limpiar el formulario
+    document.getElementById('formCliente').reset();
+});
 
-            // Mostrar un mensaje de éxito
-            alert('Cliente registrado exitosamente.');
-
-            // Limpiar el formulario
-            document.getElementById('formCliente').reset();
-        });
     </script>
 </body>
 </html>
